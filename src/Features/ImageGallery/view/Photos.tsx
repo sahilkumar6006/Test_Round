@@ -17,7 +17,6 @@ const Photos = () => {
     const [showMore, setShowMore] = useState(true);
     const [loading, setLoading] = useState(false);
     const [userId, setUserId] = useState('108');
-    const screenWidth = useMemo(() => Dimensions.get('window').width, []);
     
     const flatListRef = useRef<FlatList>(null);
 
@@ -100,9 +99,7 @@ const Photos = () => {
                         </View>
                     )
                 }
-                maintainVisibleContentPosition={{
-                    minIndexForVisible: 0,
-                }}
+             
                 removeClippedSubviews={false}
             />
         </View>
