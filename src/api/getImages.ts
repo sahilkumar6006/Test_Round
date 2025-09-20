@@ -20,6 +20,6 @@ export const getImagesData =async (user_id: string, type: string, offset: number
 
 export const submitData =async (formData: FormData) => {
     const response = await httpService.postFormData('/savedata.php', formData);
-    console.log('in the response', response)
+    console.log('in the response ----->>>>>>', response)
     return response?.data
 }
