@@ -10,13 +10,12 @@ import { RootStackParamList } from '../../../navigation/types';
 
 const Photos = () => {
     const [imagesData, setImagesData] = useState<getImagesResponse | null>(null);
-    const [offset, setOffset] = useState(0); // page-based: 0,1,2,...
+    const [offset, setOffset] = useState(0); 
     const [type, setType] = useState('popular');
     const [showMore, setShowMore] = useState(true);
     const [loading, setLoading] = useState(false);
     const screenWidth = useMemo(() => Dimensions.get('window').width, []);
 
-    const onEndReachedCalledDuringMomentum = useRef(false);
     const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'Photos'>>();
 
     const loadPage = async () => {
@@ -42,17 +41,13 @@ const Photos = () => {
     }
 
     useEffect(() => {
-        // when type changes, reset list and start from page 0
         setImagesData(null);
         setOffset(0);
         setShowMore(true);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [type]);
 
     useEffect(() => {
-        // fetch whenever offset or type changes
         loadPage();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [offset, type]);
 
     const AutoHeightImage = ({ uri, width }: { uri: string; width: number }) => {
@@ -65,7 +60,7 @@ const Photos = () => {
                     if (mounted) setHeight(width * (h / w));
                 },
                 () => {
-                    if (mounted) setHeight(width * 0.75); // fallback ratio
+                    if (mounted) setHeight(width * 0.75);
                 }
             );
             return () => { mounted = false; };
@@ -81,17 +76,9 @@ const Photos = () => {
         keyExtractor={(item, index) => (item.id ? `${item.id}-${item.xt_image}-${index}` : `${item.xt_image}-${index}`)}
         renderItem={({ item }) => (
             <Pressable onPress={() => navigation.navigate('PhotoDetail', { imageUrl: item.xt_image })}>
-              <AutoHeightImage uri={item.xt_image} width={screenWidth} />
+                <AutoHeightImage uri={item.xt_image} width={screenWidth} />
             </Pressable>
         )}
-        onEndReachedThreshold={0.7} 
-        onMomentumScrollBegin={() => { onEndReachedCalledDuringMomentum.current = false; }}
-        onEndReached={() => {
-            if (!onEndReachedCalledDuringMomentum.current && showMore && !loading) {
-                onEndReachedCalledDuringMomentum.current = true;
-                setOffset(prev => prev + 1);
-            }
-        }}
         ListFooterComponent={
             showMore ? (
                 <TouchableOpacity
@@ -109,8 +96,8 @@ const Photos = () => {
                     <Text>No more images to load</Text>
                 </View>
             )
-        }
-      />
+    }
+    />
     </View>
   )
 }
