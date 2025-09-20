@@ -17,7 +17,6 @@ const Photos = () => {
     const [showMore, setShowMore] = useState(true);
     const [loading, setLoading] = useState(false);
     const [userId, setUserId] = useState('108');
-    const [isLoadingMore, setIsLoadingMore] = useState(false); // Track if we're loading more vs initial load
     const screenWidth = useMemo(() => Dimensions.get('window').width, []);
     
     const flatListRef = useRef<FlatList>(null);
@@ -28,9 +27,6 @@ const Photos = () => {
         if (loading || !showMore) return;
         
         setLoading(true);
-        if (isLoadMore) {
-            setIsLoadingMore(true);
-        }
         
         try {
             const response = await getImagesData(userId, type, offset);
@@ -46,9 +42,6 @@ const Photos = () => {
             }
         } finally {
             setLoading(false);
-            if (isLoadMore) {
-                setIsLoadingMore(false);
-            }
         }
     }
 
@@ -62,7 +55,6 @@ const Photos = () => {
         setImagesData(null);
         setOffset(0);
         setShowMore(true);
-        setIsLoadingMore(false);
     }, [type, userId]);
 
     useEffect(() => {
@@ -108,7 +100,6 @@ const Photos = () => {
                         </View>
                     )
                 }
-                // Key prop to maintain scroll position when loading more
                 maintainVisibleContentPosition={{
                     minIndexForVisible: 0,
                 }}
