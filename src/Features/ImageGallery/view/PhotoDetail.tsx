@@ -24,7 +24,6 @@ const PhotoDetail: React.FC<Props> = ({ route }) => {
     const [submitting, setSubmitting] = useState(false);
     const [errors, setErrors] = useState<FormErrors>({});
 
-    // Refs for Next/Done navigation between inputs
     const firstNameRef = React.useRef<TextInput | null>(null);
     const lastNameRef = React.useRef<TextInput | null>(null);
     const emailRef = React.useRef<TextInput | null>(null);
@@ -103,7 +102,7 @@ const PhotoDetail: React.FC<Props> = ({ route }) => {
         >
                 <Image
                     source={{ uri: imageUrl }}
-                    style={{ width, height: undefined, aspectRatio: 1, resizeMode: 'contain', marginBottom: 16 }}
+                    style={{ width: '100%', height: undefined, aspectRatio: 1, resizeMode: 'contain', marginBottom: 16 }}
                 />
 
                 {formFields.map((field, index) => {
