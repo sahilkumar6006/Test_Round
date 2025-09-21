@@ -1,5 +1,5 @@
 import { View, Text, Image, TouchableOpacity, Dimensions, Pressable, ActivityIndicator } from 'react-native'
-import React, { useEffect, useState, useMemo, useRef } from 'react'
+import { useEffect, useState, useMemo, useRef } from 'react'
 import { getImagesData } from '../../../api/getImages';
 import { FlatList } from 'react-native';
 import { getImagesResponse } from '../../../api/getImages';
@@ -9,6 +9,8 @@ import { RootStackParamList } from '../../../navigation/types';
 import { STRINGS } from '../../../constants/Strings';
 import { SCREENNAMES } from '../../../navigation/constants';
 import { StyleSheet } from 'react-native';
+
+const toHttps = (url?: string) => (url ? url.replace(/^http:\/\//i, 'https://') : url);
 
 const Photos = () => {
     const [imagesData, setImagesData] = useState<getImagesResponse | null>(null);
@@ -71,8 +73,8 @@ const Photos = () => {
                 showsVerticalScrollIndicator={false}
                 keyExtractor={(item, index) => (item.id ? `${item.id}-${item.xt_image}-${index}` : `${item.xt_image}-${index}`)}
                 renderItem={({ item }) => (
-                    <Pressable onPress={() => navigation.navigate(SCREENNAMES.PHOTO_DETAIL, { imageUrl: item.xt_image })} style={styles.imageContainer}>
-                        <Image source={{ uri: item.xt_image }} style={{ width: 300,height: 300, aspectRatio: 1, resizeMode: 'contain', marginBottom: 16 }} />
+                    <Pressable onPress={() => navigation.navigate(SCREENNAMES.PHOTO_DETAIL, { imageUrl: toHttps(item.xt_image)! })} style={styles.imageContainer}>
+                        <Image source={{ uri: toHttps(item.xt_image) }} style={{ width: 300,height: 300, aspectRatio: 1, resizeMode: 'contain', marginBottom: 16 }} />
                     </Pressable>
                 )}
                 ListFooterComponent={

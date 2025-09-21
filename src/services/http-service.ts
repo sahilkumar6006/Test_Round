@@ -13,7 +13,7 @@ class HttpService {
 
   constructor() {
     this.http = axios.create({
-      baseURL: 'http://dev3.xicomtechnologies.com/xttest',
+      baseURL: 'https://dev3.xicomtechnologies.com/xttest',
       timeout: 10000,
     });
 
